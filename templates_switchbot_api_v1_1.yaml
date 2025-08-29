@@ -284,7 +284,6 @@ zabbix_export:
               key: 'switchbot.brightness.bulb[{#DEVICE_ID}]'
               delay: '0'
               value_type: FLOAT
-              description: 'Brightness value mapped: bright=1, dim=0'
               preprocessing:
                 - type: JSONPATH
                   parameters:
