@@ -32,7 +32,7 @@ It was vibe-coded with GPT-5 and is provided **for personal use / PoC purposes**
 
 ## Installation
 
-1. Import the template YAML (`zbx_export_templates.yaml`) into your Zabbix frontend.  
+1. Import the template YAML (`templates_switchbot_api_v1_1.yaml`) into your Zabbix frontend.  
 2. Set the following **user macros** at the host or template level:
 
    - `{$SWITCHBOT.API}` – API endpoint (default: `https://api.switch-bot.com`)  
