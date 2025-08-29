@@ -28,6 +28,7 @@ It was vibe-coded with GPT-5 and is provided **for personal use / PoC purposes**
 
 - The **Bot discovery rule is disabled** because current Bot models always return `battery = 100` from the Cloud API, making battery monitoring unreliable.  
 - This template is experimental; it works, but was primarily built as a PoC.  
+- The SwitchBot API has a **daily request limit of 10,000 calls**. Adjust `{$SWITCHBOT.INTERVAL}` accordingly to avoid hitting the limit.
 - Requires Zabbix 7.0+ with support for JavaScript item types.  
 
 ## Installation
