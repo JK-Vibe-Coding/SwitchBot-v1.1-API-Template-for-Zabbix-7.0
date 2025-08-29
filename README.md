@@ -1,4 +1,4 @@
-# SwitchBot API v1.1 Template for Zabbix 7.0
+# SwitchBot API v1.1 Template for Zabbix 7.0 — GPT-5 generated PoC
 
 This repository contains a **Zabbix 7.0 template** for monitoring **SwitchBot devices** via the official **SwitchBot Cloud API v1.1**.  
 It was vibe-coded with GPT-5 and is provided **for personal use / PoC purposes**.
