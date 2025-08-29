@@ -16,11 +16,11 @@ It was vibe-coded with GPT-5 and is provided **for personal use / PoC purposes**
   - Plugs 
 - **Metrics collected** (depending on device type):
   - Battery level  
-  - Power state  
+  - Power state (on/off)  
   - Brightness  
-  - Motion detection  
-  - Open/close state  
-  - Raw JSON for troubleshooting  
+  - Motion / Open-closed state  
+  - Temperature / Humidity / CO₂  
+  - Raw JSON (for troubleshooting) 
 - **Script-based items only** (no external scripts needed, all inline JavaScript).  
 - Includes **signed request handling** (HMAC-SHA256) for SwitchBot API v1.1.  
 
