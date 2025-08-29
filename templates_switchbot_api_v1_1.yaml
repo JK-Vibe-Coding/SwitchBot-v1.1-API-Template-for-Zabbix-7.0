@@ -9,13 +9,13 @@ zabbix_export:
       name: 'SwitchBot API v1.1'
       description: |
         JS-only (Script items) with signed SwitchBot v1.1 requests
-        Zabbix  7.0 template for SwitchBot API v1.1, vibe-coded with GPT-5.
-        For personal  use / PoC. 
+        Zabbix   7.0 template for SwitchBot API v1.1, vibe-coded with GPT-5.
+        For personal   use / PoC. 
         
         Works fine—even though I don’t really know why.
       vendor:
         name: Custom
-        version: '1.1'
+        version: '1.2'
       groups:
         - name: Templates/IoT
       discovery_rules:
@@ -27,59 +27,59 @@ zabbix_export:
           status: DISABLED
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           description: 'Disabled because current Bot models always return battery=100 in Cloud API status, so battery monitoring is not reliable.'
           item_prototypes:
             - uuid: 0a17a061fb7044548b43abf500690037
@@ -94,9 +94,6 @@ zabbix_export:
                   parameters:
                     - $.body.battery
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.bot.js[{#DEVICE_ID}]'
               tags:
@@ -133,59 +130,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -209,9 +206,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Bot'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
         - uuid: 9e6c6ae5490447e88320b655ae196d86
           name: 'SwitchBot: Discover Bulbs'
           type: SCRIPT
@@ -219,59 +213,59 @@ zabbix_export:
           delay: '{$SWITCHBOT.INTERVAL}'
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           filter:
             conditions:
               - macro: '{#DEVICE_TYPE}'
@@ -289,9 +283,6 @@ zabbix_export:
                   parameters:
                     - $.body.brightness
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.bulb.js[{#DEVICE_ID}]'
               tags:
@@ -318,9 +309,6 @@ zabbix_export:
                 - type: JAVASCRIPT
                   parameters:
                     - 'var v=String(value||'''').toLowerCase(); if(v===''on'') return 1; if(v===''off'') return 0; return null;'
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.bulb.js[{#DEVICE_ID}]'
               tags:
@@ -342,59 +330,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -419,9 +407,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Color Bulb'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
         - uuid: faf480fe4a8e485e88d3de39cfa564b9
           name: 'SwitchBot: Discover Contact Sensors'
           type: SCRIPT
@@ -429,59 +414,59 @@ zabbix_export:
           delay: '{$SWITCHBOT.INTERVAL}'
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           filter:
             conditions:
               - macro: '{#DEVICE_TYPE}'
@@ -500,9 +485,6 @@ zabbix_export:
                   parameters:
                     - $.body.battery
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.contact.js[{#DEVICE_ID}]'
               tags:
@@ -544,9 +526,6 @@ zabbix_export:
                 - type: JAVASCRIPT
                   parameters:
                     - 'var v=value;if(v===null||v===undefined) return null; v=String(v).toLowerCase(); if(v===''bright'') return 1; if(v===''dim'') return 0; return null;'
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.contact.js[{#DEVICE_ID}]'
               tags:
@@ -570,12 +549,9 @@ zabbix_export:
                   parameters:
                     - $.body.moveDetected
                   error_handler: DISCARD_VALUE
-                - type: BOOL_TO_DECIMAL
+                - type: JAVASCRIPT
                   parameters:
-                    - ''
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
+                    - 'var v = value; if (v === null || v === undefined) return null; if (typeof v === ''boolean'') return v ? 1 : 0; v = String(v).trim().toLowerCase(); if (v === ''true'' || v === ''1'') return 1; if (v === ''false'' || v === ''0'') return 0; return null;'
               master_item:
                 key: 'switchbot.status.contact.js[{#DEVICE_ID}]'
               tags:
@@ -602,9 +578,6 @@ zabbix_export:
                 - type: JAVASCRIPT
                   parameters:
                     - 'var v=String(value||'''').toLowerCase(); if(v===''open'') return 1; if(v===''close'') return 0; if(v===''timeoutnotclose''||v===''timeOutNotClose''.toLowerCase()) return 2; return null;'
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.contact.js[{#DEVICE_ID}]'
               tags:
@@ -626,59 +599,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -703,9 +676,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Contact Sensor'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
         - uuid: 89ea94cacfa74ca7bf3845dbb901b778
           name: 'SwitchBot: Discover Curtains'
           type: SCRIPT
@@ -713,59 +683,59 @@ zabbix_export:
           delay: '{$SWITCHBOT.INTERVAL}'
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           filter:
             conditions:
               - macro: '{#DEVICE_TYPE}'
@@ -784,9 +754,6 @@ zabbix_export:
                   parameters:
                     - $.body.battery
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.curtain.js[{#DEVICE_ID}]'
               tags:
@@ -825,9 +792,6 @@ zabbix_export:
                   parameters:
                     - $.body.slidePosition
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.curtain.js[{#DEVICE_ID}]'
               tags:
@@ -849,59 +813,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -926,9 +890,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Curtain'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
         - uuid: 08ecf141b3624c4b8e26a0a53f5e71ee
           name: 'SwitchBot: Discover Meters (CO2)'
           type: SCRIPT
@@ -936,59 +897,59 @@ zabbix_export:
           delay: '{$SWITCHBOT.INTERVAL}'
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           filter:
             conditions:
               - macro: '{#DEVICE_TYPE}'
@@ -1007,9 +968,6 @@ zabbix_export:
                   parameters:
                     - $.body.battery
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.meterco2.js[{#DEVICE_ID}]'
               tags:
@@ -1048,9 +1006,6 @@ zabbix_export:
                   parameters:
                     - $.body.CO2
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.meterco2.js[{#DEVICE_ID}]'
               tags:
@@ -1089,9 +1044,6 @@ zabbix_export:
                   parameters:
                     - $.body.humidity
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.meterco2.js[{#DEVICE_ID}]'
               tags:
@@ -1138,59 +1090,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -1213,9 +1165,6 @@ zabbix_export:
                   parameters:
                     - $.body.temperature
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.meterco2.js[{#DEVICE_ID}]'
               tags:
@@ -1241,9 +1190,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Meter Pro CO2'' || @.deviceType == ''MeterPro(CO2)'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
         - uuid: 3aeeba9ea0df4174900740014b8be061
           name: 'SwitchBot: Discover Meters'
           type: SCRIPT
@@ -1251,59 +1197,59 @@ zabbix_export:
           delay: '{$SWITCHBOT.INTERVAL}'
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           filter:
             conditions:
               - macro: '{#DEVICE_TYPE}'
@@ -1322,9 +1268,6 @@ zabbix_export:
                   parameters:
                     - $.body.battery
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.meter.js[{#DEVICE_ID}]'
               tags:
@@ -1363,9 +1306,6 @@ zabbix_export:
                   parameters:
                     - $.body.humidity
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.meter.js[{#DEVICE_ID}]'
               tags:
@@ -1412,59 +1352,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -1487,9 +1427,6 @@ zabbix_export:
                   parameters:
                     - $.body.temperature
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.meter.js[{#DEVICE_ID}]'
               tags:
@@ -1515,9 +1452,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Meter'' || @.deviceType == ''Meter Plus'' || @.deviceType == ''MeterPro'' || @.deviceType == ''Outdoor Meter'' || @.deviceType == ''WoIOSensor'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
         - uuid: 0cef24f7b534482790a7d7ca8f00d7fa
           name: 'SwitchBot: Discover Motion Sensors'
           type: SCRIPT
@@ -1525,59 +1459,59 @@ zabbix_export:
           delay: '{$SWITCHBOT.INTERVAL}'
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           filter:
             conditions:
               - macro: '{#DEVICE_TYPE}'
@@ -1596,9 +1530,6 @@ zabbix_export:
                   parameters:
                     - $.body.battery
                   error_handler: DISCARD_VALUE
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.motion.js[{#DEVICE_ID}]'
               tags:
@@ -1635,14 +1566,11 @@ zabbix_export:
               preprocessing:
                 - type: JSONPATH
                   parameters:
-                    - $.body.motionDetected
+                    - $.body.moveDetected
                   error_handler: DISCARD_VALUE
                 - type: BOOL_TO_DECIMAL
                   parameters:
                     - ''
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.motion.js[{#DEVICE_ID}]'
               tags:
@@ -1664,59 +1592,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -1741,9 +1669,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Motion Sensor'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
         - uuid: 992b1284c80a4da68a0efd15cf835bc2
           name: 'SwitchBot: Discover Plugs'
           type: SCRIPT
@@ -1751,59 +1676,59 @@ zabbix_export:
           delay: '{$SWITCHBOT.INTERVAL}'
           params: |
             var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}';
-               function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+            function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
             
             function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-            function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                 if(c<128) out.push(c);
+            function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                  if(c<128) out.push(c);
               else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                 else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                   c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                  else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                    c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                 out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                 } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-            } return out;    }
-            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);    return w; }
-            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)    b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
-            function sha256(msg){    var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-              var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                 var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                   0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                   0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                   0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                   0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                   0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                   0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                   0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                 var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;    for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                  } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+            } return out;     }
+            function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++) w[i>>2]|=b[i]<<(24-(i%4)*8);     return w; }
+            function _wordsToBytes(w){ var b=[],i=0; for(;i<w.length*4;i++)     b.push((w[i>>2]>>>(24-(i%4)*8))&255); return b; }
+            function sha256(msg){     var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
+              var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                  var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                  var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+              for(var i=0;i<m.length;i+=16){ var w=new Array(64),j;     for(j=0;j<16;j++) w[j]=m[i+j]|0;
                 for(;j<64;j++){ var s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                     var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
+                      var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10); w[j]=(w[j-16]+s0+w[j-7]+s1)|0;     }
                 var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                   for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var ch=(e&f)^(~e&g);
+                    for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var  ch=(e&f)^(~e&g);
                      var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                     var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                  h=g; g=f; f=e;    e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;    H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;    H[7]=(H[7]+h)|0; }
+                      var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                  h=g; g=f; f=e;     e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0;     H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;     H[7]=(H[7]+h)|0; }
               return _wordsToBytes(H);
             }
-            function hmac_sha256(key,msg){    var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
-              if(k.length<block){    var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;    k=k.concat(pad); }
-              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;    o[x]=0x5c^b; ii[x]=0x36^b; }
+            function hmac_sha256(key,msg){     var block=64,k=_toBytes(key); if(k.length>block) k=sha256(k);
+              if(k.length<block){     var pad=new Array(block-k.length); for(var i=0;i<pad.length;i++) pad[i]=0;     k=k.concat(pad); }
+              var o=[],ii=[],x=0,b; for(;x<block;x++){ b=k[x]||0;     o[x]=0x5c^b; ii[x]=0x36^b; }
               return sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-               }
+                }
             function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                 for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                   var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                   if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){  e4=64;   }
-                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                  for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                    var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                    if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){   e4=64;   }
+                out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
               return out;
             }
             
             var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-               var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-            var url=API.replace(/\/+$/,'')+'/v1.1/devices';    var resp=req.get(url);
-            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+            var url=API.replace(/\/+$/,'')+'/v1.1/devices';     var resp=req.get(url);
+            if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
           filter:
             conditions:
               - macro: '{#DEVICE_TYPE}'
@@ -1825,9 +1750,6 @@ zabbix_export:
                 - type: JAVASCRIPT
                   parameters:
                     - 'var v=String(value||'''').toLowerCase(); if(v===''on'') return 1; if(v===''off'') return 0; return null;'
-                - type: DISCARD_UNCHANGED_HEARTBEAT
-                  parameters:
-                    - 3h
               master_item:
                 key: 'switchbot.status.plug.js[{#DEVICE_ID}]'
               tags:
@@ -1849,59 +1771,59 @@ zabbix_export:
               trends: '0'
               params: |
                 var API='{$SWITCHBOT.API}',TOKEN='{$SWITCHBOT.TOKEN}',SECRET='{$SWITCHBOT.SECRET}',DID='{#DEVICE_ID}';
-                   function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();    }
-                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){    var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);    }); }
+                    function nowMillis(){ return Date.now ? Date.now() : (new Date()).getTime();     }
+                function uuid4(){ var d=nowMillis(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){     var r=(d+Math.random()*16)%16|0; d=Math.floor(d/16); return (c==='x'?r:(r&0x3|0x8)).toString(16);     }); }
                 
                 function _rotr(x, n){ return (x>>>n) | (x<<(32-n)); }
-                function    _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
-                     if(c<128) out.push(c);
+                function     _toBytes(s){ var out=[],i=0,c; for(;i<s.length;i++){ c=s.charCodeAt(i);
+                      if(c<128) out.push(c);
                   else if(c<2048) out.push((c>>6)|192,(c&63)|128);
-                     else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
-                       c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
+                      else if((c&0xFC00)===0xD800 && i+1<s.length && (s.charCodeAt(i+1)&0xFC00)===0xDC00){
+                        c=0x10000+((c&0x3FF)<<10)+(s.charCodeAt(++i)&0x3FF);
                     out.push((c>>18)|240,((c>>12)&63)|128,((c>>6)&63)|128,(c&63)|128);
-                     } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
-                } return  out;   }
-                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)  w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
-                function _wordsToBytes(w){  var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);  return b; }
+                      } else out.push((c>>12)|224,((c>>6)&63)|128,(c&63)|128);
+                } return   out;   }
+                function _bytesToWords(b){ var w=[],i=0; for(;i<b.length;i++)   w[i>>2]|=b[i]<<(24-(i%4)*8);   return w; }
+                function _wordsToBytes(w){   var b=[],i=0; for(;i<w.length*4;i++)   b.push((w[i>>2]>>>(24-(i%4)*8))&255);   return b; }
                 function sha256(msg){   var bytes=(typeof msg==='string')?_toBytes(msg):msg.slice(0);
-                   var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-                     var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-                       0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-                       0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-                       0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-                       0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-                       0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-                       0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-                       0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-                     var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));    m[((l+64>>9)<<4)+15]=l;
-                  for(var i=0;i<m.length;i+=16){ var w=new  Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
-                    for(;j<64;j++){ var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
-                        var s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;   }
+                    var  H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+                      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+                        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+                        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+                        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+                        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+                        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+                        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+                        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+                      var l=bytes.length*8, m=_bytesToWords(bytes); m[l>>5]|=0x80<<(24-(l%32));     m[((l+64>>9)<<4)+15]=l;
+                  for(var i=0;i<m.length;i+=16){ var w=new   Array(64),j;   for(j=0;j<16;j++) w[j]=m[i+j]|0;
+                    for(;j<64;j++){  var  s0=_rotr(w[j-15],7)^_rotr(w[j-15],18)^(w[j-15]>>>3);
+                        var  s1=_rotr(w[j-2],17)^_rotr(w[j-2],19)^(w[j-2]>>>10);  w[j]=(w[j-16]+s0+w[j-7]+s1)|0;    }
                     var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
-                       for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var   ch=(e&f)^(~e&g);
+                        for(j=0;j<64;j++){ var S1=_rotr(e,6)^_rotr(e,11)^_rotr(e,25); var    ch=(e&f)^(~e&g);
                        var t1=(h+S1+ch+K[j]+w[j])|0; var S0=_rotr(a,2)^_rotr(a,13)^_rotr(a,22);
-                         var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
-                      h=g; g=f;  f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
-                    H[0]=(H[0]+a)|0;  H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;  H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
+                          var maj=(a&b)^(a&c)^(b&c); var t2=(S0+maj)|0;
+                      h=g; g=f;   f=e;   e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0; }
+                    H[0]=(H[0]+a)|0;   H[1]=(H[1]+b)|0;   H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0; H[4]=(H[4]+e)|0;   H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0;   H[7]=(H[7]+h)|0; }
                   return _wordsToBytes(H);
-                 }
-                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)  k=sha256(k);
-                  if(k.length<block){   var pad=new Array(block-k.length);  for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
-                  var o=[],ii=[],x=0,b;  for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
-                  return  sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
-                   }
+                  }
+                function hmac_sha256(key,msg){   var block=64,k=_toBytes(key); if(k.length>block)   k=sha256(k);
+                  if(k.length<block){   var pad=new Array(block-k.length);   for(var i=0;i<pad.length;i++) pad[i]=0;   k=k.concat(pad); }
+                  var o=[],ii=[],x=0,b;   for(;x<block;x++){ b=k[x]||0;   o[x]=0x5c^b; ii[x]=0x36^b; }
+                  return   sha256(String.fromCharCode.apply(null,o.concat(sha256(String.fromCharCode.apply(null,ii.concat(_toBytes(msg)))))));
+                    }
                 function b64(bytes){ var tab='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',out='',i=0;
-                     for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
-                       var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
-                       if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){    e4=64; }
-                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));    }
+                      for(;i<bytes.length;){ var c1=bytes[i++]||0,c2=bytes[i++]||0,c3=bytes[i++]||0;
+                        var e1=c1>>2,e2=((c1&3)<<4)|(c2>>4),e3=((c2&15)<<2)|(c3>>6),e4=c3&63;
+                        if(isNaN(bytes[i-2])){ e3=64; e4=64; } else if(isNaN(bytes[i-1])){     e4=64; }
+                    out+=tab.charAt(e1)+tab.charAt(e2)+(e3==64?'=':tab.charAt(e3))+(e4==64?'=':tab.charAt(e4));     }
                   return out;
                 }
                 
                 var t=String(nowMillis()),nonce=uuid4(),sign=b64(hmac_sha256(SECRET,TOKEN+t+nonce));
-                   var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:    '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:    application/json; charset=utf8');
-                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';    var resp=req.get(url);
-                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return    resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
+                    var req=new HttpRequest(); req.addHeader('Authorization: '+TOKEN); req.addHeader('sign:     '+sign); req.addHeader('t: '+t); req.addHeader('nonce: '+nonce); req.addHeader('Content-Type:     application/json; charset=utf8');
+                var url=API.replace(/\/+$/,'')+'/v1.1/devices/'+DID+'/status';     var resp=req.get(url);
+                if(req.getStatus()>=200&&req.getStatus()<300&&resp){return     resp;} return JSON.stringify({status:req.getStatus(),error:true,body:resp||''});
               timeout: 10s
               tags:
                 - tag: class
@@ -1926,9 +1848,6 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - '$.body.deviceList[?(@.deviceType == ''Plug'' || @.deviceType == ''Plug Mini (US)'' || @.deviceType == ''Plug Mini (JP)'')]'
-            - type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 6h
       tags:
         - tag: class
           value: software
