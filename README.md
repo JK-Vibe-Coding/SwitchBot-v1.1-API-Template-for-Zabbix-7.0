@@ -10,6 +10,10 @@ It was vibe-coded with GPT-5 and is provided **for personal use / PoC purposes**
   - Color Bulbs  
   - Contact Sensors (with motion, brightness, open state)  
   - Curtains  
+  - Meters (Temperature / Humidity)  
+  - Meters (CO₂)  
+  - Motion Sensors  
+  - Plugs 
 - **Metrics collected** (depending on device type):
   - Battery level  
   - Power state  
