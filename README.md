@@ -41,7 +41,8 @@ It was vibe-coded with GPT-5 and is provided **for personal use / PoC purposes**
    - `{$SWITCHBOT.CO2.MAX}` – Maximum CO₂ level threshold (default: `1000`)  
    - `{$SWITCHBOT.HUM.MAX}` – Maximum humidity threshold (default: `70`)  
    - `{$SWITCHBOT.HUM.MIN}` – Minimum humidity threshold (default: `30`)  
-   - `{$SWITCHBOT.INTERVAL}` – Interval for API polling (default: `10m`)  
+   - `{$SWITCHBOT.INTERVAL}` – Interval for API polling (default: `10m`)
+   - `{$SWITCHBOT.LLD.INTERVAL}` – Discovery interval for device LLD rules (default: `1h`) 
    - `{$SWITCHBOT.SECRET}` – SwitchBot API secret (HMAC sign)  
    - `{$SWITCHBOT.TOKEN}` – SwitchBot API token (Authorization header)  
 
