@@ -9,7 +9,8 @@ It was vibe-coded with GPT-5 and is provided **for personal use / PoC purposes**
   - Bots *(disabled by default — see Notes)*  
   - Color Bulbs  
   - Contact Sensors (with motion, brightness, open state)  
-  - Curtains  
+  - Curtains
+  - Hub 2
   - Meters (Temperature / Humidity)  
   - Meters (CO₂)  
   - Motion Sensors  
